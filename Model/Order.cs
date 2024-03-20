@@ -6,12 +6,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Model
 {
     [Table("Order")]
-    public class Order : DbContext
+    public class Order : IEntityTypeConfiguration<Order>
     {
         [Key]
         public int ID { get; set; }
         public required int UserID { get; set; }
         [ForeignKey(nameof(UserID))]
+        [NotMapped]
         public User User { get; set; }
         public DateTime Date { get; set; }
         public IEnumerable<OrderPosition>? OrderPositions { get; set; }
@@ -20,8 +21,8 @@ namespace Model
         {
             builder
             .HasMany(x => x.OrderPositions)
-            .WithOne(x => x.Zamówienie)
-            .OnDelete(DeleteBehavior.Cascade); //Uszczegółowienie charakteru relacji
+            .WithOne(x => x.Order)
+            .OnDelete(DeleteBehavior.Cascade); 
 
 
         }

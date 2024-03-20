@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model
 {
     [Table("Product")]
-    public class Product: DbContext
+    public class Product: IEntityTypeConfiguration<Product>
     {
         [Key]
         public int ID { get; set; }
@@ -14,5 +15,8 @@ namespace Model
         public string Image { get; set; }
         public bool IsActive { get; set; }
         public IEnumerable<BasketPosition>? BasketPositions { get; set; }
-    }
+
+        public void Configure(EntityTypeBuilder<Order> builder)
+        {
+        }
 }
